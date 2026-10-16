@@ -91,7 +91,7 @@ namespace Structures
             Console.WriteLine("Исходный массив:");
             Print(list);
 
-            // Удаление
+            // Удаление элемента массива
             Console.Write("Введите номер элемента для удаления: ");
             int number = int.Parse(Console.ReadLine());
             list = Delete(list, number);
