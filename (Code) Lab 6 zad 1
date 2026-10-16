@@ -1,0 +1,117 @@
+using System;
+namespace Structures
+{
+    class Program
+    {
+        static Abiturient Create()
+        {
+            Abiturient x = new Abiturient();
+            Console.Write("Введите ФИО абитуриента: ");
+            x.FIO = Console.ReadLine();
+            Console.Write("Введите год рождения абитуриента: ");
+            x.year_of_berth = int.Parse(Console.ReadLine());
+            Console.WriteLine("Введите оценки по экзаменам абитуриента(3): ");
+            x.exams = new int[3];
+            for (int j = 0; j < x.exams.Length; j++)
+            {
+                x.exams[j] = int.Parse(Console.ReadLine());
+            }
+            Console.Write("Введите средний бал аттестата: ");
+            x.sredni_ball = double.Parse(Console.ReadLine());
+            Console.WriteLine();
+            return x;
+        }
+
+        static void Print(Abiturient[] list)
+        {
+            for (int i = 0; i < list.Length; i++)
+            {
+                Console.WriteLine("Номер: " + (i + 1));
+                Console.WriteLine("ФИО: " + list[i].FIO);
+                Console.WriteLine("Год рождения: " + list[i].year_of_berth);
+                Console.Write("Оценки: ");
+                for (int j = 0; j < list[i].exams.Length; j++)
+                {
+                    Console.Write(list[i].exams[j] + " ");
+                }
+                Console.WriteLine();
+                Console.WriteLine("Средний бал аттестата: " + list[i].sredni_ball);
+                Console.WriteLine();
+            }
+        }
+
+        // Удаление элемента с указанным номером
+        static Abiturient[] Delete(Abiturient[] list, int number)
+        {
+            if (number < 1 || number > list.Length)
+            {
+                Console.WriteLine("Элемента с таким номером нет");
+                return list;
+            }
+            Abiturient[] newList = new Abiturient[list.Length - 1];
+            int k = 0;
+            for (int i = 0; i < list.Length; i++)
+            {
+                if (i != number - 1)
+                {
+                    newList[k] = list[i];
+                    k++;
+                }
+            }
+            return newList;
+        }
+
+        // Добавление K элементов в начало массива
+        static Abiturient[] AddToStart(Abiturient[] list, int K)
+        {
+            int oldLength = list.Length;
+            Array.Resize(ref list, oldLength + K);
+            for (int i = oldLength - 1; i >= 0; i--)
+            {
+                list[i + K] = list[i];
+            }
+            for (int i = 0; i < K; i++)
+            {
+                Console.WriteLine("Новый абитуриент " + (i + 1) + ":");
+                list[i] = Create();
+            }
+
+            return list;
+        }
+
+        static void Main(string[] args)
+        {
+            Abiturient[] list = new Abiturient[3];
+            Console.WriteLine("Введите значения для записей: ");
+            for (int i = 0; i < list.Length; i++)
+            {
+                list[i] = Create();
+            }
+
+            Console.WriteLine("Исходный массив:");
+            Print(list);
+
+            // Удаление
+            Console.Write("Введите номер элемента для удаления: ");
+            int number = int.Parse(Console.ReadLine());
+            list = Delete(list, number);
+            Console.WriteLine("Массив после удаления:");
+            Print(list);
+
+            // Добавление в начало
+            Console.Write("Сколько студентов вы хотите добавить: ");
+            int K = int.Parse(Console.ReadLine());
+            list = AddToStart(list, K);
+            Console.WriteLine("Массив после добавления:");
+            Print(list);
+        }
+    }
+             
+    struct Abiturient
+    {
+        public string FIO;
+        public int year_of_berth;
+        public int[] exams;
+        public double sredni_ball;
+    }
+}
